@@ -1,0 +1,5 @@
+pywnp
+pypresence
+time
+psutil
+wmi
