@@ -7,11 +7,11 @@ If you don't want to edit the code in any way and come for a working application
 
 # How It Looks?
 
-- YouTube
+#### YouTube
 ![YouTube](./readme_assets/2023-11-02%20214018.png)
-- YouTube Music
+#### YouTube Music
 ![YouTube Music](./readme_assets/2023-11-02%20213844.png)
-- PC Specs
+#### PC Specs
 ![PC Specs](./readme_assets/2023-11-02%20214007.png)
 
 ### RPC updates every 10 seconds!
