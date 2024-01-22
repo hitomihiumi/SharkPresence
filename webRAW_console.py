@@ -6,7 +6,27 @@ from psutil._common import bytes2human
 import wmi
 computer = wmi.WMI()
 
-choose = int(input("1 - GawrGura\n2 - Ayaka\n3 - Hu Tao\n4 - Vampire\n\nChoose: ")) 
+choose = int(input("Choose big picture for show\n\n1 - GawrGura\n2 - Ayaka\n3 - Hu Tao\n4 - Vampire\n\nChoose: ")) 
+
+graphicscard = 1
+
+if len(computer.Win32_VideoController()) > 1: 
+    graphicscard = int(input(f"\nChoose videocard for show in stats\n\n1 - {computer.Win32_VideoController()[0].Name}\n2 - {computer.Win32_VideoController()[1].Name}\n\nChoose: "))
+
+button = int(input("\nChoose button for show\n\n1 - Custom URL\n2 - Don't show button\n\nChoose: "))
+
+if button == 1:
+    name = str(input("\ninput name button: "))
+    url = str(input("\ninput URL: "))
+
+    button = [{
+        "label": name,
+        "url": url
+    }]
+elif button == 2:
+    button = None
+
+print("\nThanks for using SharkPresence!\nGitHub: https://github.com/hitomihiumi/SharkPresence")
 
 arr = {
    'title': '',
@@ -59,6 +79,9 @@ def RPCUpdate(state, details, pltform):
         elif pltform == "YouTube":
             small_image = 'yt'
             small_text = 'YouTube'
+        elif pltform == "Twitch":
+            small_image = 'twitch'
+            small_text = 'Twitch'
         else: 
             small_image = 'hu_tao_large'
             small_text = 'Хутава'
@@ -68,7 +91,7 @@ def RPCUpdate(state, details, pltform):
             if i == 1:
                 memory = psutil.virtual_memory()
 
-                state = f"{computer.Win32_VideoController()[0].Name} | RAM: {bytes2human(memory.used)}/{bytes2human(memory.total)}" 
+                state = f"{computer.Win32_VideoController()[graphicscard - 1].Name} | RAM: {bytes2human(memory.used)}/{bytes2human(memory.total)}" 
                 details = f"{computer.Win32_Processor()[0].Name}" 
 
                 i = 0
@@ -86,7 +109,8 @@ def RPCUpdate(state, details, pltform):
             large_text=large_text, 
             small_image=small_image,  
             small_text=small_text,
-            start=int(start_of_day_unix)
+            start=int(start_of_day_unix),
+            buttons=button
         )
 
 def GetInfo():
@@ -100,12 +124,11 @@ def GetInfo():
   else:
      RPCUpdate("", "", 'Base')
 
-def Start():
-    try:
-        while True:
-            GetInfo() 
-    except KeyboardInterrupt:
-        pass
-    finally:
-        # RPC.close()
-        pass
+try:
+    while True:
+        GetInfo() 
+except KeyboardInterrupt:
+    pass
+finally:
+    # RPC.close()
+    pass
